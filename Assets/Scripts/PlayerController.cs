@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour {
                     rgb.g = g;
                     rgb.b = b;
 
+                    element.GetComponent<ElementUnit>().InitializeElement(r, g, b);
+
                     element.GetComponent<SpriteRenderer>().color = rgb;
 
                     element.transform.SetParent(gameObject.transform);
@@ -75,6 +77,9 @@ public class PlayerController : MonoBehaviour {
             else
             {
                 heldElement.transform.SetParent(null);
+                heldElement.GetComponent<CircleCollider2D>().enabled = true;
+                heldElement.GetComponent<ElementUnit>().CheckNearElements();
+                heldElement = null;
             }
         }
     }
@@ -82,7 +87,6 @@ public class PlayerController : MonoBehaviour {
     GameObject CheckNearMachine()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, 3f);
-        List<GameObject> nearCells = new List<GameObject>();
 
         for (int i = 0; i < hitColliders.Length; i++)
         {
@@ -94,5 +98,10 @@ public class PlayerController : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        transform.Translate(Vector3.zero, Space.World);
     }
 }
