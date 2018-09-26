@@ -29,7 +29,7 @@ public class SwitchUnit : MonoBehaviour {
                 g = 1;
                 b = 0;
             }
-            else if (pos == 1)
+            else if (pos == 2)
             {
                 r = 0;
                 g = 0;

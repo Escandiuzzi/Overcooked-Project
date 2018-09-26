@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
         Movement();
         Generate();
         Switch();
+        Grab();
     }
 
     void Movement()
@@ -101,6 +102,26 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    void Grab()
+    {
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+
+            GameObject nearElement = null;
+            nearElement = CheckNearElements();
+
+            if (nearElement != null && heldElement == null)
+            {
+                heldElement = nearElement;           
+                heldElement.transform.position = new Vector3(transform.position.x, transform.position.y + 1);
+                heldElement.transform.SetParent(gameObject.transform);
+            }
+
+        }
+
+    }
+
     GameObject CheckNearMachine()
     {
         Vector2 size = new Vector2(1, 1);
@@ -117,6 +138,25 @@ public class PlayerController : MonoBehaviour {
 
         return null;
     }
+
+    GameObject CheckNearElements()
+    {
+        Vector2 size = new Vector2(1, 1);
+        RaycastHit2D[] hitColliders = Physics2D.BoxCastAll(transform.position, size, 0, Vector2.up, 1f);
+
+        for (int i = 0; i < hitColliders.Length; i++)
+        {
+            if (hitColliders[i].collider.gameObject.tag == "Element")
+            {
+
+                return hitColliders[i].collider.gameObject;
+            }
+
+        }
+
+        return null;
+    }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         transform.Translate(Vector3.zero, Space.World);
