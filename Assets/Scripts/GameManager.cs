@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour {
         CreateAProductRequest();
 	}
 	
-
     public void CreateAProductRequest()
     {
         float r = 0;
@@ -40,4 +39,6 @@ public class GameManager : MonoBehaviour {
 
         product.SetActive(true);
     }
+
+    public void CheckCreation() { }
 }

@@ -7,6 +7,11 @@ public class SwitchUnit : MonoBehaviour {
     [SerializeField]
     MachineUnit[] machines;
 
+    [SerializeField]
+    GameObject[] switchStates;
+
+    bool status = false;
+
     public void ShuffleColorSet()
     {
         foreach (MachineUnit machine in machines)
@@ -37,5 +42,25 @@ public class SwitchUnit : MonoBehaviour {
             }
             machine.SetMachineRGB(r, g, b);
         }
+    }
+
+    public void SetStatus(bool _status)
+    {
+        status = _status;
+
+        if (status)
+        {
+            switchStates[1].SetActive(false);
+        }
+        else
+        {
+            switchStates[1].SetActive(true);
+        }
+
+    }
+
+    public bool GetStatus()
+    {
+        return status;
     }
 }

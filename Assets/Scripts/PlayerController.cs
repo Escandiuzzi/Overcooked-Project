@@ -8,14 +8,19 @@ public class PlayerController : MonoBehaviour {
     float playerSpeed;
     [SerializeField]
     GameObject elementPrefab;
+    [SerializeField]
+    GameObject gameManager;
+
 
     GameObject switchObj;
+    GameObject switchObj2;
     GameObject heldElement;
 
 	// Use this for initialization
 	void Start () {
         switchObj = GameObject.Find("Switch");
-	}
+        switchObj2 = GameObject.Find("Switch 2");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -97,6 +102,15 @@ public class PlayerController : MonoBehaviour {
             {
                 switchObj.GetComponent<SwitchUnit>().ShuffleColorSet();
             }
+
+
+            float dist2 = Vector2.Distance(transform.position, switchObj2.transform.position);
+
+            if (dist2 < 2f && switchObj2.GetComponent<SwitchUnit>().GetStatus())
+            {
+                gameManager.GetComponent<GameManager>().CheckCreation();
+            }
+
 
         }
 
