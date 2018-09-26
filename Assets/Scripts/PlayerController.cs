@@ -16,18 +16,19 @@ public class PlayerController : MonoBehaviour {
     GameObject switchObj2;
     GameObject heldElement;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         switchObj = GameObject.Find("Switch");
         switchObj2 = GameObject.Find("Switch 2");
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         Movement();
         Generate();
         Switch();
         Grab();
+        DestroyElement();
     }
 
     void Movement()
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            if(heldElement == null)
+            if (heldElement == null)
             {
                 GameObject machine = CheckNearMachine();
 
@@ -127,13 +128,26 @@ public class PlayerController : MonoBehaviour {
 
             if (nearElement != null && heldElement == null)
             {
-                heldElement = nearElement;           
+                heldElement = nearElement;
                 heldElement.transform.position = new Vector3(transform.position.x, transform.position.y + 1);
                 heldElement.transform.SetParent(gameObject.transform);
             }
 
         }
 
+    }
+
+
+    void DestroyElement()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (heldElement != null)
+            {
+                Destroy(heldElement);
+                heldElement = null;
+            }
+        }
     }
 
     GameObject CheckNearMachine()
