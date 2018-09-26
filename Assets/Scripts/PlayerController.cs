@@ -9,17 +9,19 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     GameObject elementPrefab;
 
+    GameObject switchObj;
     GameObject heldElement;
 
 	// Use this for initialization
 	void Start () {
+        switchObj = GameObject.Find("Switch");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
         Movement();
         Generate();
+        Switch();
     }
 
     void Movement()
@@ -84,24 +86,52 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void Switch()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            float dist = Vector2.Distance(transform.position, switchObj.transform.position);
+
+            if (dist < 2f)
+            {
+                switchObj.GetComponent<SwitchUnit>().ShuffleColorSet();
+            }
+
+        }
+
+    }
+
     GameObject CheckNearMachine()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, 3f);
+        Vector2 size = new Vector2(1, 1);
+        RaycastHit2D[] hitColliders = Physics2D.BoxCastAll(transform.position, size, 0, Vector2.up, 1f);
 
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            if (hitColliders[i].gameObject.tag == "Machine")
+            if (hitColliders[i].collider.gameObject.tag == "Machine")
             {
 
-                return hitColliders[i].gameObject;
+                return hitColliders[i].collider.gameObject;
             }
         }
 
         return null;
     }
-
     public void OnCollisionEnter2D(Collision2D collision)
     {
         transform.Translate(Vector3.zero, Space.World);
     }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Color color = Gizmos.color;
+
+    //    color.a = 0.4f;
+
+    //    Gizmos.color = color;
+
+    //    Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1);
+    //    Vector3 size = new Vector3(1, 1);
+    //    Gizmos.DrawCube(pos, size);
+    //}
 }

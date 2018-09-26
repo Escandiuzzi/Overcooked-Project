@@ -12,16 +12,6 @@ public class MachineUnit : MonoBehaviour {
     float b;
 
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public float GetMachineRed()
     {
         return r;
@@ -36,4 +26,27 @@ public class MachineUnit : MonoBehaviour {
     {
         return b;
     }
+
+    public void SetMachineRGB(float red, float green, float blue)
+    {
+        r = red;
+        g = green;
+        b = blue;
+
+        ChangeMachineColor();
+    }
+
+    public void ChangeMachineColor()
+    {
+
+        Transform child = transform.GetChild(0);
+        Color color = child.GetComponentInChildren<SpriteRenderer>().color;
+
+        color.r = r;
+        color.g = g;
+        color.b = b;
+
+        child.GetComponentInChildren<SpriteRenderer>().color = color;
+    }
+
 }

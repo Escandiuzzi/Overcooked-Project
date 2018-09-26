@@ -58,8 +58,6 @@ public class ElementUnit : MonoBehaviour {
     public void CheckNearElements()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, 3f);
-        List<GameObject> nearCells = new List<GameObject>();
-
         for (int i = 0; i < hitColliders.Length; i++)
         {
             if (hitColliders[i].gameObject.tag == "Element")
