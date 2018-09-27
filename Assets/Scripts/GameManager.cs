@@ -5,17 +5,24 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    [SerializeField]
+    GameObject exit;
+
     public GameObject product;
 
-	void Start () {
+    GameObject dropZone;
+
+    float r = 0;
+    float g = 0;
+    float b = 0;
+
+    void Start () {
         CreateAProductRequest();
+        dropZone = GameObject.Find("DropZone");
 	}
 	
     public void CreateAProductRequest()
     {
-        float r = 0;
-        float g = 0;
-        float b = 0;
 
         for (int i = 0; i < 3; i++)
         {
@@ -40,5 +47,31 @@ public class GameManager : MonoBehaviour {
         product.SetActive(true);
     }
 
-    public void CheckCreation() { }
+    public void CheckCreation()
+    {
+        GameObject element = dropZone.GetComponent<DropZone>().insideElement;
+
+        if (element != null)
+        {
+            float elementRed = element.GetComponent<ElementUnit>().GetRValue();
+            float elementGreen = element.GetComponent<ElementUnit>().GetGValue();
+            float elementBlue = element.GetComponent<ElementUnit>().GetBValue();
+
+            if (elementRed == r && elementGreen == g && elementBlue == b)
+            {
+                Debug.Log("Completed");
+
+                exit.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("Wrong Element");
+            }
+
+            Destroy(element);
+            dropZone.GetComponent<DropZone>().SetSwitchUnitFalse();
+
+
+        }
+    }
 }

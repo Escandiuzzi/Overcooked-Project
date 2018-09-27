@@ -111,10 +111,7 @@ public class PlayerController : MonoBehaviour {
             {
                 gameManager.GetComponent<GameManager>().CheckCreation();
             }
-
-
         }
-
     }
 
     void Grab()
