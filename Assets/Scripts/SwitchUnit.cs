@@ -12,6 +12,10 @@ public class SwitchUnit : MonoBehaviour {
 
     bool status = false;
 
+    [SerializeField]
+    PetriNetManager pnManager;
+
+
     public void ShuffleColorSet()
     {
         foreach (MachineUnit machine in machines)
@@ -50,10 +54,12 @@ public class SwitchUnit : MonoBehaviour {
 
         if (status)
         {
+            //pnManager.MoveToTheNextState2();
             switchStates[1].SetActive(false);
         }
         else
         {
+            //pnManager.ReturnToThePreviousState();
             switchStates[1].SetActive(true);
         }
 

@@ -11,15 +11,20 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     GameObject gameManager;
 
+    [SerializeField]
+    PetriNetManager pnManager;
+
 
     GameObject switchObj;
     GameObject switchObj2;
     GameObject heldElement;
 
+
     // Use this for initialization
     void Start() {
         switchObj = GameObject.Find("Switch");
         switchObj2 = GameObject.Find("Switch 2");
+
     }
 
     // Update is called once per frame
@@ -80,6 +85,10 @@ public class PlayerController : MonoBehaviour {
                     element.transform.SetParent(gameObject.transform);
 
                     heldElement = element;
+
+                    if (pnManager.GetCurrentCellIndex() == 0)           
+                        pnManager.MoveToTheNextState1();
+
                 }
             }
 
@@ -186,6 +195,12 @@ public class PlayerController : MonoBehaviour {
     {
         transform.Translate(Vector3.zero, Space.World);
     }
+
+    public void MoveNextState()
+    {
+        pnManager.MoveToTheNextState1();
+    }
+
     //void OnDrawGizmos()
     //{
     //    Gizmos.color = Color.red;

@@ -12,6 +12,17 @@ public class GameManager : MonoBehaviour {
 
     GameObject dropZone;
 
+    [SerializeField]
+    PetriNetManager pnManager;
+
+    float time = 0;
+
+    bool transition = false;
+    bool completed = false;
+    bool wrongElement = false;
+    bool returnToStart = false;
+
+
     float r = 0;
     float g = 0;
     float b = 0;
@@ -20,7 +31,49 @@ public class GameManager : MonoBehaviour {
         CreateAProductRequest();
         dropZone = GameObject.Find("DropZone");
 	}
-	
+
+    private void Update()
+    {
+        if (transition)
+        {
+            time += Time.deltaTime;
+
+            if (completed)
+            {
+                if (time > 0.5f)
+                {
+                    pnManager.MoveToTheNextState1();
+                    time = 0;
+                    transition = false;
+                    completed = false;
+                }
+            }
+
+            if (wrongElement)
+            {             
+                if (time > 0.5f)
+                {
+                    pnManager.MoveToTheNextState2();
+                    wrongElement = false;
+                    returnToStart = true;
+                    time = 0;
+                }
+            }
+
+            if (returnToStart)
+            {
+                if (time > 0.5f)
+                {
+                    pnManager.MoveToTheNextState1();
+                    returnToStart = false;
+                    transition = false;
+                    time = 0;
+                }
+            }
+
+        }
+    }
+
     public void CreateAProductRequest()
     {
 
@@ -34,6 +87,32 @@ public class GameManager : MonoBehaviour {
                 g = colorValue;
             if (i == 2)
                 b = colorValue;
+        }
+
+
+        if (r == 0 && g == 0 && b == 0)
+        {
+            int selectColor = Random.Range(0, 3);
+
+            if (selectColor == 0)
+            {
+                r = 1;
+                g = 1;
+                b = 1;
+            }
+            else if (selectColor == 1)
+            {
+                r = 1;
+                g = 0;
+                b = 1;
+            }
+            else if (selectColor == 2)
+            {
+                r = 0;
+                g = 1;
+                b = 1;
+            }
+
         }
 
         Color color = product.GetComponent<Image>().color;
@@ -53,6 +132,8 @@ public class GameManager : MonoBehaviour {
 
         if (element != null)
         {
+            pnManager.MoveToTheNextState2();
+
             float elementRed = element.GetComponent<ElementUnit>().GetRValue();
             float elementGreen = element.GetComponent<ElementUnit>().GetGValue();
             float elementBlue = element.GetComponent<ElementUnit>().GetBValue();
@@ -60,17 +141,19 @@ public class GameManager : MonoBehaviour {
             if (elementRed == r && elementGreen == g && elementBlue == b)
             {
                 Debug.Log("Completed");
-
+                transition = true;
+                completed = true;
                 exit.SetActive(true);
             }
             else
             {
                 Debug.Log("Wrong Element");
+                transition = true;
+                wrongElement = true;
             }
 
             Destroy(element);
             dropZone.GetComponent<DropZone>().SetSwitchUnitFalse();
-
 
         }
     }

@@ -7,7 +7,35 @@ public class ElementUnit : MonoBehaviour {
     float r;
     float g;
     float b;
+    float time = 0;
+    public float transitionTime;
 
+    GameObject player;
+
+    bool transition = false;
+
+
+
+
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
+    private void Update()
+    {
+        if (transition)
+        {
+            time += Time.deltaTime;
+
+            if (time > transitionTime)
+            {
+                player.GetComponent<PlayerController>().MoveNextState();
+                time = 0;
+                transition = false;
+            }
+
+        }
+    }
 
     public void InitializeElement(float red, float green, float blue)
     {
@@ -64,6 +92,8 @@ public class ElementUnit : MonoBehaviour {
             {
                 if (hitColliders[i].gameObject != gameObject)
                 {
+                    player.GetComponent<PlayerController>().MoveNextState();
+
                     GameObject nearElement = hitColliders[i].gameObject;
                     ElementUnit neUnit = nearElement.GetComponent<ElementUnit>();
 
@@ -76,6 +106,7 @@ public class ElementUnit : MonoBehaviour {
 
                     Destroy(nearElement);
 
+                    transition = true;
                     break;
                 }
             }
