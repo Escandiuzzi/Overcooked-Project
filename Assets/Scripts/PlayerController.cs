@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
     GameObject elementPrefab;
     [SerializeField]
     GameObject gameManager;
+    [SerializeField]
+    GameObject pnetCanvas;
 
     [SerializeField]
     PetriNetManager pnManager;
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour {
         Switch();
         Grab();
         DestroyElement();
+        InteractWithCanvas();
     }
 
     void Movement()
@@ -154,6 +157,22 @@ public class PlayerController : MonoBehaviour {
                 heldElement = null;
             }
         }
+    }
+
+    void InteractWithCanvas()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (pnetCanvas.activeInHierarchy)
+            {
+                pnetCanvas.SetActive(false);
+            }
+            else
+            {
+                pnetCanvas.SetActive(true);
+            }
+        }
+
     }
 
     GameObject CheckNearMachine()

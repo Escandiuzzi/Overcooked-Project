@@ -11,6 +11,12 @@ public class PetriNetManager : MonoBehaviour {
     [SerializeField]
     GameObject identifier;
 
+    [SerializeField]
+    GameObject[] states;
+    [SerializeField]
+    GameObject resource;
+
+
     public class State
     {
         State nextState1;
@@ -96,6 +102,7 @@ public class PetriNetManager : MonoBehaviour {
         int currentIndex = currentState.GetIndex();
 
         identifier.transform.position = statesRepresentation[currentIndex].transform.position;
+        resource.transform.position = states[currentIndex].transform.position;
     }
 
     public void MoveToTheNextState1()
