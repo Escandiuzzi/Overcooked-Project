@@ -11,7 +11,7 @@ public class ExitController : MonoBehaviour {
 
         if (obj.GetComponent<PlayerController>())
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 }
